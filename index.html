@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>LAT - GA | Van Support Plan · ตารางรถรับส่ง</title>
+  <link rel="icon" type="image/png" href="https://192.168.5.11/latwebsite/wp-content/uploads/2023/11/cropped-latlogoSQUARE-depositphotos-bgremover-1.png">
+  <style>
+    :root{
+      --navy:#123b63; --blue:#1e5b8e; --blue2:#eaf3fb; --ink:#172536;
+      --muted:#617184; --line:#d8e1e9; --white:#fff; --page:#f3f6fa;
+      --green:#12734b; --green-bg:#e8f7ef; --amber:#9a5a00; --amber-bg:#fff4df;
+      --shadow:0 10px 30px rgba(18,59,99,.07); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--page);color:var(--ink);font-family:"Leelawadee UI","Noto Sans Thai",Tahoma,Arial,sans-serif;line-height:1.5}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible,input:focus-visible{outline:3px solid #76b5ef;outline-offset:2px}
+    .wrap{max-width:1440px;margin:0 auto;padding:24px 22px 44px}
+    .hero{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:26px 28px;background:linear-gradient(120deg,#10385d,#1d5a8b);color:#fff;border-radius:24px;box-shadow:var(--shadow);margin-bottom:20px}
+    .eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;opacity:.78;margin-bottom:5px}
+    h1{font-size:clamp(23px,3vw,34px);line-height:1.2;margin:0 0 7px;font-weight:800}
+    .subtitle{margin:0;color:#dbe9f6;font-size:14px}
+    .clockbox{flex:0 0 auto;text-align:right;min-width:205px;border-left:1px solid rgba(255,255,255,.24);padding-left:24px}
+    .clock-label{font-size:12px;color:#dbe9f6}
+    .clock{font-size:30px;line-height:1.25;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.04em}
+    .date{font-size:12px;color:#dbe9f6;margin-top:3px}
+    .section{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden}
+    .section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:20px 22px 14px}
+    .section-head h2{margin:0;font-size:18px;line-height:1.35}
+    .section-head p{margin:5px 0 0;color:var(--muted);font-size:13px}
+    .filters{padding:0 22px 22px}
+    .filter-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .filter-panel{border:1px solid var(--line);border-radius:14px;padding:15px;min-width:0;background:#fbfdff}
+    .filter-panel h3{font-size:14px;margin:0 0 9px;color:#27394c}
+    .filter-help{font-size:12px;color:var(--muted);margin:-3px 0 10px}
+    .checklist{display:flex;flex-wrap:wrap;gap:7px;max-height:155px;overflow:auto;padding:2px 2px 4px}
+    .choice{display:inline-flex;align-items:center;gap:7px;border:1px solid #d6e0ea;border-radius:999px;padding:6px 10px;background:#fff;font-size:13px;white-space:nowrap;cursor:pointer}
+    .choice:has(input:checked){border-color:#4b87ba;background:#eaf4fd;color:#174c79}
+    .choice input{accent-color:var(--blue);width:14px;height:14px;margin:0}
+    .panel-tools{display:flex;gap:7px;justify-content:flex-end;margin-top:9px}
+    .text-btn{border:0;background:transparent;color:var(--blue);font-weight:700;font-size:12px;padding:2px 5px}
+    .time-options,.type-options{display:flex;flex-wrap:wrap;gap:9px}
+    .big-choice{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;flex:1;min-width:170px;background:#fff;cursor:pointer}
+    .big-choice input{accent-color:var(--blue);margin-top:4px}
+    .big-choice strong{display:block;font-size:13px}
+    .big-choice small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+    .filter-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+    .toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:0 22px 16px}
+    .result-count{font-size:13px;color:var(--muted)}
+    .result-count strong{color:var(--ink);font-size:16px}
+    .spacer{flex:1}
+    .button{border:1px solid transparent;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:750;transition:transform .12s,background .12s}
+    .button:active{transform:translateY(1px)}
+    .button-primary{background:var(--blue);color:#fff}
+    .button-primary:hover{background:#16466e}
+    .button-ghost{background:#fff;color:var(--blue);border-color:#c8d8e6}
+    .button-ghost:hover{background:#f1f7fc}
+    .button-small{padding:7px 10px;font-size:12px}
+    .trip-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 22px 22px}
+    .trip{border:1px solid var(--line);border-radius:16px;background:#fff;padding:15px;min-width:0;position:relative;display:flex;flex-direction:column;gap:12px}
+    .trip-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .trip-time{font-size:27px;font-weight:850;color:var(--navy);line-height:1.1;font-variant-numeric:tabular-nums}
+    .trip-subdate{font-size:11px;color:var(--muted);margin-top:3px}
+    .badges{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}
+    .badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;background:#eef3f8;color:#38536b;white-space:nowrap}
+    .badge.special{background:#fff1d7;color:#8d5100}
+    .badge.normal{background:#e9f6ee;color:#176643}
+    .badge.passed{background:#edf0f3;color:#606b76}
+    .badge.transfer{background:#eaf3fb;color:#1e5b8e}
+    .route-path{display:flex;align-items:center;gap:9px;min-width:0;flex-wrap:wrap}
+    .stop{border-radius:9px;background:#edf4fa;color:#173e61;font-weight:800;padding:6px 10px;font-size:14px;max-width:45%;overflow-wrap:anywhere}
+    .route-arrow{color:#68839b;font-size:18px;font-weight:800}
+    .route-original{font-size:12px;color:var(--muted);margin-top:-7px}
+    .trip-info{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+    .info-box{background:#f7f9fc;border:1px solid #e8edf3;border-radius:11px;padding:9px 10px;min-width:0}
+    .info-label{font-size:10px;letter-spacing:.025em;color:var(--muted);display:block;margin-bottom:3px}
+    .info-value{font-size:12px;font-weight:750;overflow-wrap:anywhere}
+    .note{font-size:12px;color:#42566a;min-height:18px}
+    .note b{color:#263b50}
+    .trip-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #edf1f5;padding-top:11px;margin-top:auto}
+    .countdown-label{font-size:10px;color:var(--muted)}
+    .countdown{font-size:14px;font-weight:850;color:var(--green);font-variant-numeric:tabular-nums}
+    .countdown.passed{color:#78838e}
+    .empty{grid-column:1/-1;text-align:center;padding:44px 20px;border:1px dashed #b9cad9;border-radius:16px;background:#fbfdff}
+    .empty h3{margin:0 0 5px;font-size:17px}
+    .empty p{margin:0;color:var(--muted);font-size:13px}
+    .disclaimer{margin:0 0 16px;border:1px solid #eadbb7;background:#fff9e9;color:#634d22;border-radius:13px;padding:12px 15px;font-size:12px}
+    .footnote{font-size:11px;line-height:1.65;color:var(--muted);padding:0 4px}
+    .modal-backdrop{position:fixed;inset:0;z-index:20;background:rgba(6,22,38,.58);display:none;align-items:center;justify-content:center;padding:18px}
+    .modal-backdrop.open{display:flex}
+    .modal{width:min(520px,100%);max-height:calc(100vh - 36px);overflow:auto;background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.25)}
+    .modal-head{background:var(--navy);color:#fff;padding:19px 22px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .modal-head h2{font-size:19px;margin:0}
+    .modal-head p{margin:4px 0 0;color:#dbe9f6;font-size:12px}
+    .close-x{background:transparent;color:#fff;border:1px solid #7092af;border-radius:8px;width:34px;height:34px;font-size:22px;line-height:1}
+    .modal-body{padding:20px 22px}
+    .selected-trip{border:1px solid var(--line);border-radius:12px;background:#f6f9fc;padding:12px;margin-bottom:16px}
+    .selected-trip strong{display:block;color:var(--navy);font-size:15px}
+    .selected-trip p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .driver-details{border-left:3px solid #2c6a9e;padding:3px 0 3px 12px;margin:15px 0;font-size:12px}
+    .driver-details strong{display:block;margin-bottom:4px}
+    .driver-details a{color:var(--blue);font-weight:750;text-decoration:none;margin-right:9px;display:inline-block}
+    .tab-nav{display:flex;gap:8px;flex-wrap:wrap;padding:6px;background:#e8eef5;border:1px solid #d7e1eb;border-radius:15px;margin:0 0 18px}
+    .tab-button{border:1px solid transparent;border-radius:10px;padding:11px 16px;background:transparent;color:#40566b;font-size:13px;font-weight:800;transition:background .15s,color .15s;}
+    .tab-button:hover{background:#f8fbfe}
+    .tab-button.active{background:var(--blue);color:#fff;box-shadow:0 4px 10px rgba(30,91,142,.16)}
+    .tab-button:focus-visible{outline:3px solid #76b5ef;outline-offset:2px}
+    .tab-view{min-width:0}
+    .planner-controls{padding:0 22px 18px}
+    .planner-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .planner-grid .filter-panel{min-width:0}
+    .select-control{width:100%;min-height:43px;border:1px solid #cfdbe6;border-radius:10px;background:#fff;color:var(--ink);padding:9px 11px}
+    .plan-type-row{display:flex;flex-wrap:wrap;gap:10px}
+    .plan-type-choice{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;font-size:13px;flex:1;min-width:150px}
+    .plan-type-choice input{accent-color:var(--blue)}
+    .planner-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:0 22px 16px}
+    .plan-results{display:grid;grid-template-columns:1fr;gap:12px;padding:0 22px 22px}
+    .plan-card{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+    .plan-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:15px 17px;background:#f7fafd;border-bottom:1px solid #e7edf3}
+    .plan-card-title{font-size:16px;font-weight:850;color:var(--navy)}
+    .plan-card-subtitle{font-size:12px;color:var(--muted);margin-top:3px}
+    .plan-card-badges{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:5px}
+    .plan-legs{padding:13px 16px}
+    .plan-leg{display:grid;grid-template-columns:74px minmax(0,1fr);gap:12px;padding:8px 0}
+    .plan-leg-time{font-weight:850;font-size:17px;color:var(--navy);font-variant-numeric:tabular-nums}
+    .plan-leg-main{min-width:0}
+    .plan-leg-route{font-weight:800;color:#1e3f5e}
+    .plan-leg-original{font-size:12px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+    .plan-leg-meta{font-size:12px;color:#4e6276;margin-top:5px;display:flex;flex-wrap:wrap;gap:5px 12px}
+    .plan-gap{margin:4px 0 4px 35px;padding:7px 10px;border-left:3px solid #d4a24c;background:#fff8e9;border-radius:0 8px 8px 0;font-size:11px;color:#73551e}
+    .plan-disclaimer{margin:0 22px 20px}
+    .planner-empty{grid-column:1/-1;text-align:center;padding:35px 18px;border:1px dashed #b9cad9;border-radius:16px;background:#fbfdff}
+    .planner-empty h3{margin:0 0 5px;font-size:16px}
+    .planner-empty p{margin:0;color:var(--muted);font-size:13px}
+    @media(max-width:760px){.planner-grid{grid-template-columns:1fr}.planner-controls{padding:0 14px 16px}.planner-toolbar{padding:0 14px 14px}.plan-results{padding:0 14px 16px}.plan-disclaimer{margin-left:14px;margin-right:14px}.tab-button{flex:1;padding:10px 11px}.plan-card-head{padding:13px}.plan-legs{padding:10px 13px}}
+    @media(max-width:380px){.plan-leg{grid-template-columns:59px minmax(0,1fr);gap:8px}.plan-leg-time{font-size:15px}.plan-gap{margin-left:20px}}
+    .hidden{display:none!important}
+    @media(min-width:1100px){.trip-list{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:760px){.wrap{padding:13px 11px 30px}.hero{padding:20px;border-radius:18px;align-items:flex-start;flex-direction:column}.clockbox{text-align:left;border-left:0;border-top:1px solid rgba(255,255,255,.24);padding:11px 0 0;width:100%}.clock{font-size:26px}.filter-grid,.filter-bottom{grid-template-columns:1fr}.trip-list{grid-template-columns:1fr}.section-head{padding:17px 16px 12px}.filters{padding:0 14px 16px}.toolbar{padding:0 14px 14px}.trip-list{padding-left:14px;padding-right:14px}.trip{padding:13px}.filter-panel{padding:13px}.trip-info{grid-template-columns:1fr 1fr}}
+    @media(max-width:380px){.trip-info{grid-template-columns:1fr}.trip-time{font-size:24px}.trip-bottom{align-items:flex-start;flex-direction:column}.trip-bottom .button{width:100%}}
+    @media print{body{background:#fff}.wrap{max-width:none;padding:0}.hero{box-shadow:none;border-radius:0}.section{box-shadow:none;break-inside:avoid}.filters,.toolbar,.trip-bottom button,.modal-backdrop{display:none!important}.trip-list{grid-template-columns:repeat(2,1fr)}.trip{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">LAT - GA</div>
+        <h1>Van Support Plan</h1>
+        <p class="subtitle">ตารางรถรับส่ง · ทะเบียน 1นข 9150 กทม. และ 1นญ 8763 กทม.</p>
+      </div>
+      <div class="clockbox" aria-live="polite">
+        <div class="clock-label">เวลาปัจจุบัน (ประเทศไทย · UTC+7)</div>
+        <div class="clock" id="liveClock">--:--:--</div>
+        <div class="date" id="liveDate">กำลังโหลดวันที่…</div>
+      </div>
+    </header>
+
+    <nav class="tab-nav" role="tablist" aria-label="เมนูตารางรถรับส่ง">
+      <button class="tab-button active" id="tabNormal" type="button" role="tab" aria-selected="true" aria-controls="normalView">ตารางรถปกติ</button>
+      <button class="tab-button" id="tabPlanner" type="button" role="tab" aria-selected="false" aria-controls="plannerView" tabindex="-1">คำนวณหาเส้นทางล่วงหน้า</button>
+    </nav>
+
+    <div class="tab-view" id="normalView" role="tabpanel" aria-labelledby="tabNormal">
+    <section class="section" aria-labelledby="filterTitle">
+      <div class="section-head">
+        <div><h2 id="filterTitle">ตัวกรองรอบรถ</h2><p>เลือกต้นทาง ปลายทาง ช่วงเวลา และประเภทรอบได้หลายเงื่อนไข</p></div>
+        <button class="button button-ghost button-small" id="resetFilters" type="button">ล้างตัวกรอง</button>
+      </div>
+      <div class="filters">
+        <div class="filter-grid">
+          <div class="filter-panel">
+            <h3>1. ต้นทาง</h3>
+            <div class="filter-help">ไม่เลือกจุดใด = แสดงทุกต้นทาง</div>
+            <div class="checklist" id="originChoices"></div>
+            <div class="panel-tools"><button type="button" class="text-btn" data-select="origin">เลือกทั้งหมด</button><button type="button" class="text-btn" data-clear="origin">ล้างเลือก</button></div>
+          </div>
+          <div class="filter-panel">
+            <h3>2. ปลายทาง</h3>
+            <div class="filter-help">ไม่เลือกจุดใด = แสดงทุกปลายทาง</div>
+            <div class="checklist" id="destinationChoices"></div>
+            <div class="panel-tools"><button type="button" class="text-btn" data-select="destination">เลือกทั้งหมด</button><button type="button" class="text-btn" data-clear="destination">ล้างเลือก</button></div>
+          </div>
+        </div>
+        <div class="filter-bottom">
+          <div class="filter-panel">
+            <h3>3. ช่วงเวลา</h3>
+            <div class="time-options">
+              <label class="big-choice"><input type="radio" name="timeMode" value="upcoming" checked><span><strong>เฉพาะรอบถัดไป</strong><small>แสดงรอบที่ยังมาไม่ถึง เช่น 14:12 จะแสดงตั้งแต่ 14:15</small></span></label>
+              <label class="big-choice"><input type="radio" name="timeMode" value="all"><span><strong>รอบทั้งหมด</strong><small>รวมรอบที่ผ่านมาและรอบที่กำลังจะมาถึง</small></span></label>
+            </div>
+          </div>
+          <div class="filter-panel">
+            <h3>4. ประเภทรอบ</h3>
+            <div class="type-options">
+              <label class="big-choice"><input id="normalType" type="checkbox" checked><span><strong>รอบธรรมดา</strong><small>เส้นทางหลัก HO, ISW, OSW</small></span></label>
+              <label class="big-choice"><input id="specialType" type="checkbox"><span><strong>รอบพิเศษ</strong><small>SPP, MPMT, S-LAB และจุด/งานอื่น</small></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <div class="result-count">พบ <strong id="resultCount">0</strong> รอบตามตัวกรอง</div>
+        <div class="spacer"></div>
+        <button class="button button-ghost button-small" id="showAllTrips" type="button">แสดงรอบทั้งหมด</button>
+      </div>
+      <div id="tripList" class="trip-list" aria-live="polite"></div>
+    </section>
+    </div>
+
+    <section class="section hidden" id="plannerView" role="tabpanel" aria-labelledby="tabPlanner">
+      <div class="section-head">
+        <div>
+          <h2>คำนวณหาเส้นทางล่วงหน้า</h2>
+          <p>ค้นหาเส้นทางตรงหรือเส้นทางต่อรถหลายช่วงจากตารางรถทั้งสองคัน</p>
+        </div>
+        <span class="badge">ต่อรถห่างไม่เกิน 30 นาที</span>
+      </div>
+      <div class="planner-controls">
+        <div class="planner-grid">
+          <div class="filter-panel">
+            <h3>ต้นทาง</h3>
+            <div class="filter-help">เลือกจุดที่ต้องการเริ่มเดินทาง</div>
+            <select class="select-control" id="planOrigin" aria-label="เลือกต้นทาง"></select>
+          </div>
+          <div class="filter-panel">
+            <h3>ปลายทาง</h3>
+            <div class="filter-help">เลือกจุดหมายที่ต้องการไป</div>
+            <select class="select-control" id="planDestination" aria-label="เลือกปลายทาง"></select>
+          </div>
+          <div class="filter-panel">
+            <h3>ประเภทรอบที่ใช้ค้นหา</h3>
+            <div class="plan-type-row">
+              <label class="plan-type-choice"><input id="planNormalType" type="checkbox" checked><span>รอบธรรมดา</span></label>
+              <label class="plan-type-choice"><input id="planSpecialType" type="checkbox"><span>รอบพิเศษ</span></label>
+            </div>
+          </div>
+          <div class="filter-panel">
+            <h3>ช่วงเวลาและการต่อรถ</h3>
+            <div class="time-options" style="margin-bottom:10px">
+              <label class="big-choice"><input type="radio" name="planTimeMode" value="upcoming" checked><span><strong>เฉพาะรอบที่ยังไม่ถึง</strong><small>ใช้เวลาไทยปัจจุบันในการคัดกรอง</small></span></label>
+              <label class="big-choice"><input type="radio" name="planTimeMode" value="all"><span><strong>รอบทั้งหมด</strong><small>รวมเวลาที่ผ่านไปแล้วในตารางวันนี้</small></span></label>
+            </div>
+            <label for="planMaxGap" style="display:block;font-size:12px;font-weight:750;margin-bottom:5px">ระยะห่างระหว่างเวลาออกรอบต่อรถสูงสุด ( 30 - 120 นาที )</label>
+            <input class="select-control" id="planMaxGap" type="number" min="0" max="120" step="5" value="30" inputmode="numeric">
+          </div>
+        </div>
+      </div>
+      <div class="planner-toolbar">
+        <div class="result-count">พบ <strong id="planResultCount">0</strong> เส้นทางที่เป็นไปได้ <span style="font-size:11px;color:var(--muted)">(แสดงสูงสุด 40 เส้นทาง)</span></div>
+        <div class="spacer"></div>
+        <button class="button button-ghost button-small" id="planReset" type="button">คืนค่าเริ่มต้น</button>
+        <button class="button button-primary" id="planSearch" type="button">ค้นหาเส้นทาง</button>
+      </div>
+      <div class="plan-results" id="planResults" aria-live="polite">
+        <div class="planner-empty"><h3>เลือกต้นทางและปลายทาง</h3><p>ระบบจะแสดงเส้นทางตรงและเส้นทางต่อรถที่ตรงกับเงื่อนไข</p></div>
+      </div>
+      <div class="disclaimer plan-disclaimer"><strong>หมายเหตุการคำนวณ:</strong> ตารางระบุเวลาออกรอบ แต่ไม่ได้ระบุระยะเวลาเดินทางหรือเวลาถึงแต่ละจุด ระบบจึงตรวจจากระยะห่างระหว่างเวลาในตารางของรอบต่อเนื่อง (ตามค่าที่ตั้ง) ไม่ใช่การยืนยันเวลาถึงจุดต่อรถจริง โปรดตรวจสอบกับผู้ขับก่อนเดินทาง</div>
+    </section>
+
+  </main>
+
+  <div class="modal-backdrop" id="detailsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head"><div><h2 id="modalTitle">รายละเอียดรอบรถ</h2><p>ตรวจสอบเส้นทาง ทะเบียนรถ และข้อมูลติดต่อ</p></div><button class="close-x" id="closeModal" type="button" aria-label="ปิด">×</button></div>
+      <div class="modal-body">
+        <div class="selected-trip" id="selectedTripInfo"></div>
+        <div class="driver-details" id="driverDetails"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    'use strict';
+    const PLATES = {
+      isw: { plate: '1นข 9150 กทม.', team: 'ISW Plant', phones: ['093-6040014','094-5093670','088-4342894'] },
+      osw: { plate: '1นญ 8763 กทม.', team: 'OSW Plant', phones: ['086-1509971','098-4968864'] }
+    };
+    // [เวลา, เส้นทางรถ 9150, หมายเหตุรถ 9150, เส้นทางรถ 8763, หมายเหตุรถ 8763]
+    const sourceRows = [
+      ['07:55','โดม - TM','เริ่มให้บริการ','OSW - HO','เริ่มให้บริการ'],
+      ['08:00','TM - ISW','','OSW - HO','เริ่มให้บริการ'],
+      ['08:15','ISW - HO','','HO - S-LAB','งานประจำ'],
+      ['08:30','HO - OSW','','S-LAB - SP - OSW','งานประจำ'],
+      ['08:45','OSW - ISW','','OSW - MPMT','งานประจำ'],
+      ['09:00','ISW - HO','งานประจำ','MPMT - OSW','งานประจำ'],
+      ['09:15','HO - OSW','งานประจำ','OSW - HO','ลิ้งเอกสาร'],
+      ['09:30','OSW - ISW','งานประจำ','HO - S-LAB','งานประจำ'],
+      ['09:45','ISW - HO','','S-LAB - ISW','งานประจำ'],
+      ['10:00','HO - OSW','','ISW - AAT','งานประจำ'],
+      ['10:15','OSW - ISW','','AAT - OSW','งานประจำ'],
+      ['10:30','ISW - SF4','งานประจำ','OSW - S-LAB','ส่งข้าว'],
+      ['10:45','SF4 - BH2','งานประจำ','S-LAB - MPMT','งานประจำ'],
+      ['11:00','BH - ISW','งานประจำ','MPMT - S-LAB','งานประจำ'],
+      ['11:15','ISW - HO','','S-LAB - OSW','งานประจำ'],
+      ['11:30','HO - OSW','','OSW - AAT','งานประจำ'],
+      ['11:45','OSW - HO','','AAT - ISW',''],
+      ['12:00','HO - ISW','','ISW - HO',''],
+      ['12:15','ISW - HO','','HO - OSW',''],
+      ['12:30','HO - OSW','','OSW - HO',''],
+      ['12:45','OSW - ISW','','HO - OSW',''],
+      ['13:00','ISW - OSW','','OSW - AAT','งานประจำ'],
+      ['13:15','OSW - HO','','AAT - OSW','งานประจำ'],
+      ['13:30','HO - OSW','','OSW - S-LAB','งานประจำ'],
+      ['13:45','OSW - ISW','','S-LAB - MPMT','งานประจำ'],
+      ['14:00','ISW - HO','งานประจำ','MPMT - OSW','งานประจำ'],
+      ['14:15','HO - OSW','งานประจำ','OSW - MP','ลิ้งเอกสาร'],
+      ['14:30','OSW - ISW','งานประจำ','MP - S-LAB','งานประจำ'],
+      ['14:45','ISW - HO','','S-LAB - ISW','งานประจำ'],
+      ['15:00','HO - OSW','','ISW - AAT ส่งวางบิล','งานประจำ'],
+      ['15:15','OSW - AAT','เอาข้าว','AAT - OSW','งานประจำ'],
+      ['15:30','AAT - B2','งานประจำ','OSW - SPP','ส่งข้าว'],
+      ['15:45','B2 - CY','งานประจำ','SPP - S-LAB','ส่งข้าว'],
+      ['16:00','CY - โดม','งานประจำ','S-LAB - OSW','งานประจำ'],
+      ['16:15','โดม - ISW','','OSW - MPMT','งานประจำ'],
+      ['16:30','ISW - OSW','','MPMT - S-LAB','งานประจำ'],
+      ['16:45','OSW - ISW','','S-LAB - SPP','งานประจำ'],
+      ['17:00','ISW - CY','งานประจำ','กลับ OSW','สิ้นสุดให้บริการ'],
+      ['17:10','CY - ISW','งานประจำ','S-LAB - SPP','งานประจำ'],
+      ['17:10','ISW - TM','งานประจำ','กลับ OSW','สิ้นสุดให้บริการ'],
+      ['17:15','TM - โดม','AAT เลิก','กลับ OSW','สิ้นสุดให้บริการ']
+    ];
+    const NORMAL_STOPS = new Set(['HO','ISW','OSW']);
+    const stopsKnown = ['S-LAB','MPMT','SPP','SF4','BH2','BH','B2','CY','AAT','TM','HO','ISW','OSW','MP','SP','โดม'];
+    const escapeHtml = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    function parseRoute(route) {
+      let cleaned = route.replace(/ส่งวางบิล/g, '').trim();
+      if (/^กลับ\s+OSW$/i.test(cleaned)) return {from:'กลับ/ไม่ระบุ', to:'OSW', stops:['OSW'], special:true};
+      const pieces = cleaned.split(/\s+-\s+/).map(s => s.trim()).filter(Boolean);
+      const findCode = (part) => {
+        // หารหัสจุดที่ตรงกับข้อมูลในตาราง โดยไม่เอาข้อความงาน เช่น "ส่งวางบิล" มาเป็นปลายทาง
+        return stopsKnown.find(code => part.toUpperCase().startsWith(code.toUpperCase())) || part;
+      };
+      const mapped = pieces.map(findCode);
+      const from = mapped[0] || 'ไม่ระบุ';
+      const to = mapped[mapped.length - 1] || 'ไม่ระบุ';
+      const special = mapped.some(s => !NORMAL_STOPS.has(s));
+      return {from,to,stops:mapped,special};
+    }
+    const trips = [];
+    sourceRows.forEach((r, i) => {
+      [['isw',r[1],r[2]],['osw',r[3],r[4]]].forEach(([side,route,note]) => {
+        const parsed = parseRoute(route);
+        trips.push({id:`${String(i+1).padStart(2,'0')}-${side}`, rowIndex:i, time:r[0], route, note, side, ...PLATES[side], ...parsed});
+      });
+    });
+
+    const originChoices = document.getElementById('originChoices');
+    const destinationChoices = document.getElementById('destinationChoices');
+    const tripList = document.getElementById('tripList');
+    const modal = document.getElementById('detailsModal');
+    let lastRenderedKey = '';
+
+    function getBangkokParts(date = new Date()) {
+      const parts = new Intl.DateTimeFormat('en-GB', {timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(date);
+      const o = {}; parts.forEach(p => { if(p.type !== 'literal') o[p.type] = Number(p.value); });
+      return o;
+    }
+    function getBangkokDateKey() {
+      const p = getBangkokParts();
+      return `${p.year}-${String(p.month).padStart(2,'0')}-${String(p.day).padStart(2,'0')}`;
+    }
+    function eventTimestamp(time, dateParts = getBangkokParts()) {
+      const [hour,minute] = time.split(':').map(Number);
+      return Date.UTC(dateParts.year,dateParts.month-1,dateParts.day,hour,minute,0) - 7*60*60*1000;
+    }
+    function prettyThaiDate(date = new Date()) {
+      return new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(date);
+    }
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('liveClock').textContent = new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(now);
+      document.getElementById('liveDate').textContent = prettyThaiDate(now);
+    }
+    function getSelectedOriginValues() { return [...originChoices.querySelectorAll('input:checked')].map(i=>i.value); }
+    function getSelectedDestinationValues() { return [...destinationChoices.querySelectorAll('input:checked')].map(i=>i.value); }
+    function getTimeMode() { return document.querySelector('input[name="timeMode"]:checked')?.value || 'upcoming'; }
+    function getFilteredTrips() {
+      const now = Date.now();
+      const parts = getBangkokParts();
+      const origins = getSelectedOriginValues();
+      const destinations = getSelectedDestinationValues();
+      const normalOn = document.getElementById('normalType').checked;
+      const specialOn = document.getElementById('specialType').checked;
+      const timeMode = getTimeMode();
+      return trips.filter(t => {
+        const ts = eventTimestamp(t.time, parts);
+        if(timeMode === 'upcoming' && ts < now) return false;
+        if(origins.length && !origins.includes(t.from)) return false;
+        if(destinations.length && !destinations.includes(t.to)) return false;
+        if(t.special && !specialOn) return false;
+        if(!t.special && !normalOn) return false;
+        return true;
+      }).sort((a,b) => a.rowIndex-b.rowIndex || (a.side==='isw'?-1:1));
+    }
+    function renderCheckboxChoices(container, values, name, selectedValues = []) {
+      const selected = new Set(selectedValues);
+      container.innerHTML = values.map(v => `<label class="choice"><input type="checkbox" name="${name}" value="${escapeHtml(v)}" ${selected.has(v)?'checked':''}><span>${escapeHtml(v)}</span></label>`).join('');
+      if (!values.length) container.innerHTML = '<span style="font-size:12px;color:#617184">ไม่มีจุดต้นทาง/ปลายทางในประเภทรอบที่เลือก</span>';
+    }
+    function getTripsForSelectedTypes() {
+      const normalOn = document.getElementById('normalType').checked;
+      const specialOn = document.getElementById('specialType').checked;
+      return trips.filter(t => t.special ? specialOn : normalOn);
+    }
+    function syncRouteChoices() {
+      const selectedOrigins = getSelectedOriginValues();
+      const selectedDestinations = getSelectedDestinationValues();
+      const typeTrips = getTripsForSelectedTypes();
+      const origins = [...new Set(typeTrips.map(t=>t.from))].sort((a,b)=>a.localeCompare(b,'th'));
+      const destinations = [...new Set(typeTrips.map(t=>t.to))].sort((a,b)=>a.localeCompare(b,'th'));
+      renderCheckboxChoices(originChoices, origins, 'origin', selectedOrigins.filter(v=>origins.includes(v)));
+      renderCheckboxChoices(destinationChoices, destinations, 'destination', selectedDestinations.filter(v=>destinations.includes(v)));
+    }
+    function setupFilters() {
+      syncRouteChoices();
+      document.querySelectorAll('input[name="timeMode"]').forEach(el=>el.addEventListener('change',renderTrips));
+      document.getElementById('normalType').addEventListener('change',()=>{syncRouteChoices();renderTrips();});
+      document.getElementById('specialType').addEventListener('change',()=>{syncRouteChoices();renderTrips();});
+      [originChoices,destinationChoices].forEach(el=>el.addEventListener('change',renderTrips));
+      document.querySelectorAll('[data-select]').forEach(btn=>btn.addEventListener('click',()=>{const container=btn.dataset.select==='origin'?originChoices:destinationChoices;container.querySelectorAll('input').forEach(i=>i.checked=true);renderTrips();}));
+      document.querySelectorAll('[data-clear]').forEach(btn=>btn.addEventListener('click',()=>{const container=btn.dataset.clear==='origin'?originChoices:destinationChoices;container.querySelectorAll('input').forEach(i=>i.checked=false);renderTrips();}));
+      document.getElementById('resetFilters').addEventListener('click',()=>{
+        document.querySelector('input[name="timeMode"][value="upcoming"]').checked=true;
+        document.getElementById('normalType').checked=true; document.getElementById('specialType').checked=true;
+        syncRouteChoices(); renderTrips();
+      });
+      document.getElementById('showAllTrips').addEventListener('click',()=>{
+        document.querySelector('input[name="timeMode"][value="all"]').checked=true;
+        renderTrips();
+      });
+    }
+    function formatCountdown(ts) {
+      const diff = ts - Date.now();
+      if(diff < 0) return {label:'ผ่านเวลาแล้ว', cls:'passed'};
+      const total = Math.floor(diff/1000);
+      const minutes = Math.floor(total/60); const seconds = total%60;
+      return {label: minutes>0 ? `${minutes} นาที ${String(seconds).padStart(2,'0')} วินาที` : `${seconds} วินาที`, cls:''};
+    }
+    function driverContacts(t) {
+      return `<strong>กลุ่มรถ/ผู้ขับ: ${escapeHtml(t.team)}</strong><div>ทะเบียน ${escapeHtml(t.plate)}</div><div>เบอร์ติดต่อที่ระบุในภาพ: ${t.phones.map(p=>`<a href="tel:${p.replace(/-/g,'')}">${escapeHtml(p)}</a>`).join(' ')}</div><div style="margin-top:5px;color:#667789">ไม่พบข้อมูลยืนยันว่าคนขับรายใดเป็นผู้รับรอบนี้โดยเฉพาะ</div>`;
+    }
+    function tripCard(t) {
+      const ts = eventTimestamp(t.time);
+      const countdown = formatCountdown(ts);
+      const type = t.special ? 'รอบพิเศษ' : 'รอบธรรมดา';
+      return `<article class="trip" data-id="${escapeHtml(t.id)}">
+        <div class="trip-top"><div><div class="trip-time">${escapeHtml(t.time)}</div><div class="trip-subdate">${escapeHtml(prettyThaiDate())}</div></div><div class="badges"><span class="badge ${t.special?'special':'normal'}">${type}</span><span class="badge">${escapeHtml(t.team)}</span></div></div>
+        <div class="route-path"><span class="stop">${escapeHtml(t.from)}</span><span class="route-arrow">→</span><span class="stop">${escapeHtml(t.to)}</span></div>
+        <div class="route-original">เส้นทางตามตาราง: ${escapeHtml(t.route)}</div>
+        <div class="trip-info"><div class="info-box"><span class="info-label">ทะเบียนรถ</span><span class="info-value">${escapeHtml(t.plate)}</span></div><div class="info-box"><span class="info-label">กลุ่มรถ / ผู้ขับที่ติดต่อได้</span><span class="info-value">${escapeHtml(t.team)} · ${t.phones.length} เบอร์</span></div></div>
+        <div class="note"><b>หมายเหตุ:</b> ${t.note ? escapeHtml(t.note) : '—'}</div>
+        <div class="trip-bottom"><div><div class="countdown-label">${countdown.cls?'สถานะรอบ':'เวลาจนถึงรอบ'}</div><div class="countdown ${countdown.cls}" data-countdown="${escapeHtml(t.id)}">${escapeHtml(countdown.label)}</div></div><button type="button" class="button button-primary" data-details="${escapeHtml(t.id)}">รายละเอียดเพิ่มเติม</button></div>
+      </article>`;
+    }
+    function renderTrips() {
+      const visible = getFilteredTrips();
+      document.getElementById('resultCount').textContent = visible.length;
+      lastRenderedKey = visible.map(t=>t.id).join('|');
+      if(!visible.length) {
+        const isUpcoming = getTimeMode()==='upcoming';
+        tripList.innerHTML = `<div class="empty"><h3>ไม่พบรอบรถตามตัวกรอง</h3><p>${isUpcoming?'วันนี้อาจไม่มีรอบที่เหลือแล้ว หรือไม่มีรอบที่ตรงกับจุดที่เลือก':'ลองล้างต้นทาง/ปลายทาง หรือเลือกประเภทรอบอื่น'}</p><div style="margin-top:12px"><button type="button" class="button button-ghost" id="emptyReset">ล้างตัวกรองจุดหมาย</button></div></div>`;
+        document.getElementById('emptyReset').addEventListener('click',()=>{originChoices.querySelectorAll('input').forEach(i=>i.checked=false);destinationChoices.querySelectorAll('input').forEach(i=>i.checked=false);renderTrips();});
+      } else tripList.innerHTML = visible.map(tripCard).join('');
+    }
+    function updateCountdowns() {
+      const parts = getBangkokParts();
+      document.querySelectorAll('[data-countdown]').forEach(el=>{
+        const t=trips.find(x=>x.id===el.dataset.countdown); if(!t) return;
+        const c=formatCountdown(eventTimestamp(t.time,parts));
+        el.textContent=c.label; el.classList.toggle('passed',!!c.cls);
+        const label=el.parentElement?.querySelector('.countdown-label'); if(label) label.textContent=c.cls?'สถานะรอบ':'เวลาจนถึงรอบ';
+      });
+      const key=getFilteredTrips().map(t=>t.id).join('|');
+      if(key!==lastRenderedKey && !modal.classList.contains('open')) renderTrips();
+    }
+    function openDetails(t) {
+      document.getElementById('selectedTripInfo').innerHTML=`<strong>${escapeHtml(t.time)} · ${escapeHtml(t.route)}</strong><p>ทะเบียน ${escapeHtml(t.plate)} · ${escapeHtml(t.team)}</p><p>ต้นทาง: ${escapeHtml(t.from)} · ปลายทาง: ${escapeHtml(t.to)} · ประเภท: ${t.special?'รอบพิเศษ':'รอบธรรมดา'}</p><p>หมายเหตุ: ${escapeHtml(t.note||'—')}</p>`;
+      document.getElementById('driverDetails').innerHTML=driverContacts(t);
+      modal.classList.add('open');
+      document.getElementById('closeModal').focus();
+    }
+    function closeDetails() { modal.classList.remove('open'); renderTrips(); }
+    tripList.addEventListener('click',e=>{
+      const btn=e.target.closest('[data-details]'); if(!btn) return;
+      const t=trips.find(x=>x.id===btn.dataset.details); if(t) openDetails(t);
+    });
+    document.getElementById('closeModal').addEventListener('click',closeDetails);
+    modal.addEventListener('click',e=>{if(e.target===modal) closeDetails();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeDetails();});
+
+    // Tabs: keep the original timetable as the default landing page.
+    const tabNormal = document.getElementById('tabNormal');
+    const tabPlanner = document.getElementById('tabPlanner');
+    const normalView = document.getElementById('normalView');
+    const plannerView = document.getElementById('plannerView');
+    function activateTab(which) {
+      const showPlanner = which === 'planner';
+      tabNormal.classList.toggle('active', !showPlanner);
+      tabPlanner.classList.toggle('active', showPlanner);
+      tabNormal.setAttribute('aria-selected', String(!showPlanner));
+      tabPlanner.setAttribute('aria-selected', String(showPlanner));
+      tabNormal.tabIndex = showPlanner ? -1 : 0;
+      tabPlanner.tabIndex = showPlanner ? 0 : -1;
+      normalView.classList.toggle('hidden', showPlanner);
+      plannerView.classList.toggle('hidden', !showPlanner);
+      if (showPlanner) runPlannerSearch();
+    }
+    tabNormal.addEventListener('click', () => activateTab('normal'));
+    tabPlanner.addEventListener('click', () => activateTab('planner'));
+    [tabNormal, tabPlanner].forEach((tab, index, tabs) => tab.addEventListener('keydown', e => {
+      if (!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+      e.preventDefault();
+      const target = e.key === 'Home' ? tabs[0] : e.key === 'End' ? tabs[1] : tabs[(index + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      target.focus(); target.click();
+    }));
+
+    // Planner uses the same sourceRows/trips data as the existing timetable.
+    const planOrigin = document.getElementById('planOrigin');
+    const planDestination = document.getElementById('planDestination');
+    const planResults = document.getElementById('planResults');
+    const planResultCount = document.getElementById('planResultCount');
+    const PLAN_MAX_LEGS = 6;
+    const PLAN_MAX_RESULTS = 40;
+    function plannerPoints() {
+      const normalOn = document.getElementById('planNormalType').checked;
+      const specialOn = document.getElementById('planSpecialType').checked;
+      const points = new Set();
+      trips.forEach(t => {
+        if (t.special ? !specialOn : !normalOn) return;
+        if (t.from && t.from !== 'กลับ/ไม่ระบุ' && t.from !== 'ไม่ระบุ') points.add(t.from);
+        if (t.to && t.to !== 'กลับ/ไม่ระบุ' && t.to !== 'ไม่ระบุ') points.add(t.to);
+      });
+      return [...points].sort((a,b) => a.localeCompare(b, 'th'));
+    }
+    function fillPlannerPointSelects() {
+      const previousOrigin = planOrigin.value;
+      const previousDestination = planDestination.value;
+      const points = plannerPoints();
+      const originDefault = points.includes(previousOrigin) ? previousOrigin : (points.includes('HO') ? 'HO' : points[0]);
+      const destinationDefault = points.includes(previousDestination) && previousDestination !== originDefault
+        ? previousDestination
+        : (points.includes('ISW') && 'ISW' !== originDefault ? 'ISW' : points.find(p => p !== originDefault));
+      const makeOptions = selected => points.map(p => `<option value="${escapeHtml(p)}" ${p === selected ? 'selected' : ''}>${escapeHtml(p)}</option>`).join('');
+      planOrigin.innerHTML = makeOptions(originDefault);
+      planDestination.innerHTML = makeOptions(destinationDefault);
+    }
+    function planTimeMode() {
+      return document.querySelector('input[name="planTimeMode"]:checked')?.value || 'upcoming';
+    }
+    function getPlanEligibleTrips() {
+      const normalOn = document.getElementById('planNormalType').checked;
+      const specialOn = document.getElementById('planSpecialType').checked;
+      const mode = planTimeMode();
+      const now = Date.now();
+      const parts = getBangkokParts();
+      return trips.filter(t => {
+        if (!t.from || !t.to || t.from === 'กลับ/ไม่ระบุ' || t.from === 'ไม่ระบุ' || t.from === t.to) return false;
+        if (t.special ? !specialOn : !normalOn) return false;
+        if (mode === 'upcoming' && eventTimestamp(t.time, parts) < now) return false;
+        return true;
+      }).map(t => ({...t, departureTs: eventTimestamp(t.time, parts)}))
+        .sort((a,b) => a.departureTs - b.departureTs || a.rowIndex - b.rowIndex || a.side.localeCompare(b.side));
+    }
+    function findPlannedRoutes(origin, destination, maxGapMinutes, eligibleTrips) {
+      if (!origin || !destination || origin === destination) return [];
+      const maxGapMs = maxGapMinutes * 60 * 1000;
+      const queue = [{stop: origin, legs: [], visited: new Set([origin]), lastDeparture: null}];
+      const results = [];
+      let explored = 0;
+      const searchLimit = 20000;
+      while (queue.length && results.length < PLAN_MAX_RESULTS && explored < searchLimit) {
+        const state = queue.shift();
+        explored++;
+        if (state.legs.length >= PLAN_MAX_LEGS) continue;
+        const nextTrips = eligibleTrips.filter(t => {
+          if (t.from !== state.stop || state.legs.some(leg => leg.id === t.id)) return false;
+          if (state.lastDeparture !== null) {
+            const gap = t.departureTs - state.lastDeparture;
+            if (gap <= 0 || gap > maxGapMs) return false;
+          }
+          if (state.visited.has(t.to) && t.to !== destination) return false;
+          return !state.visited.has(t.to) || t.to === destination;
+        });
+        for (const t of nextTrips) {
+          const legs = [...state.legs, t];
+          if (t.to === destination) {
+            results.push({legs, startTs: legs[0].departureTs});
+            if (results.length >= PLAN_MAX_RESULTS) break;
+          } else {
+            const visited = new Set(state.visited); visited.add(t.to);
+            queue.push({stop: t.to, legs, visited, lastDeparture: t.departureTs});
+          }
+        }
+      }
+      const seen = new Set();
+      return results.filter(r => {
+        const key = r.legs.map(t => t.id).join('>');
+        if (seen.has(key)) return false;
+        seen.add(key); return true;
+      }).sort((a,b) => a.startTs - b.startTs || a.legs.length - b.legs.length || a.legs.map(t=>t.rowIndex).join(',').localeCompare(b.legs.map(t=>t.rowIndex).join(',')))
+        .slice(0, PLAN_MAX_RESULTS);
+    }
+    function renderPlanResult(result, index) {
+      const legsHtml = result.legs.map((t, legIndex) => {
+        const leg = `<div class="plan-leg">
+          <div class="plan-leg-time">${escapeHtml(t.time)}</div>
+          <div class="plan-leg-main">
+            <div class="plan-leg-route">${escapeHtml(t.from)} <span class="route-arrow">→</span> ${escapeHtml(t.to)}</div>
+            <div class="plan-leg-original">เส้นทางตามตาราง: ${escapeHtml(t.route)}</div>
+            <div class="plan-leg-meta"><span>${escapeHtml(t.plate)}</span><span>${escapeHtml(t.team)}</span><span>${t.special ? 'รอบพิเศษ' : 'รอบธรรมดา'}</span><span>หมายเหตุ: ${escapeHtml(t.note || '—')}</span></div>
+          </div>
+        </div>`;
+        if (legIndex === 0) return leg;
+        const previous = result.legs[legIndex - 1];
+        const gapMinutes = Math.round((t.departureTs - previous.departureTs) / 60000);
+        return `<div class="plan-gap">จุดต่อรถ ${escapeHtml(previous.to)} · เวลาออกรอบถัดไปห่างกัน ${gapMinutes} นาที</div>${leg}`;
+      }).join('');
+      const transferCount = Math.max(0, result.legs.length - 1);
+      const typeLabel = transferCount === 0 ? 'เส้นทางตรง' : `ต่อรถ ${transferCount} ครั้ง`;
+      const typeClass = transferCount === 0 ? 'normal' : 'transfer';
+      const startTime = result.legs[0]?.time || '--:--';
+      return `<article class="plan-card">
+        <div class="plan-card-head">
+          <div><div class="plan-card-title">เส้นทางที่ ${index + 1} · เริ่ม ${escapeHtml(startTime)} น.</div><div class="plan-card-subtitle">${result.legs.length} ช่วงเดินทาง · ${escapeHtml(result.legs[0].from)} ไป ${escapeHtml(result.legs[result.legs.length-1].to)}</div></div>
+          <div class="plan-card-badges"><span class="badge ${typeClass}">${typeLabel}</span></div>
+        </div>
+        <div class="plan-legs">${legsHtml}</div>
+      </article>`;
+    }
+    function runPlannerSearch() {
+      const origin = planOrigin.value;
+      const destination = planDestination.value;
+      const gapInput = document.getElementById('planMaxGap');
+      let maxGap = Number(gapInput.value);
+      if (!Number.isFinite(maxGap)) maxGap = 30;
+      maxGap = Math.max(0, Math.min(30, Math.floor(maxGap)));
+      gapInput.value = String(maxGap);
+      if (!document.getElementById('planNormalType').checked && !document.getElementById('planSpecialType').checked) {
+        planResultCount.textContent = '0';
+        planResults.innerHTML = '<div class="planner-empty"><h3>ยังไม่ได้เลือกประเภทรอบ</h3><p>เลือกอย่างน้อยหนึ่งประเภท คือรอบธรรมดาหรือรอบพิเศษ แล้วค้นหาอีกครั้ง</p></div>';
+        return;
+      }
+      if (!origin || !destination || origin === destination) {
+        planResultCount.textContent = '0';
+        planResults.innerHTML = '<div class="planner-empty"><h3>เลือกต้นทางและปลายทางให้ต่างกัน</h3><p>เลือกจุดเริ่มต้นและจุดหมายคนละจุดเพื่อค้นหาเส้นทาง</p></div>';
+        return;
+      }
+      const eligible = getPlanEligibleTrips();
+      const results = findPlannedRoutes(origin, destination, maxGap, eligible);
+      planResultCount.textContent = String(results.length);
+      if (!results.length) {
+        const timeLabel = planTimeMode() === 'upcoming' ? 'รอบที่ยังไม่ถึงเวลา' : 'รอบทั้งหมดในตารางวันนี้';
+        planResults.innerHTML = `<div class="planner-empty"><h3>ไม่พบเส้นทางตามเงื่อนไข</h3><p>ไม่พบการเดินทางจาก ${escapeHtml(origin)} ไป ${escapeHtml(destination)} โดยใช้${escapeHtml(timeLabel)}และระยะห่างระหว่างเวลาออกรอบต่อรถไม่เกิน ${maxGap} นาที ลองเปิดประเภทรอบเพิ่มหรือเปลี่ยนช่วงเวลา</p></div>`;
+        return;
+      }
+      planResults.innerHTML = results.map(renderPlanResult).join('');
+    }
+    document.getElementById('planSearch').addEventListener('click', runPlannerSearch);
+    [planOrigin, planDestination, document.getElementById('planMaxGap')].forEach(el => {
+      el.addEventListener('change', runPlannerSearch);
+    });
+    [document.getElementById('planNormalType'), document.getElementById('planSpecialType')].forEach(el => {
+      el.addEventListener('change', () => { fillPlannerPointSelects(); runPlannerSearch(); });
+    });
+    document.querySelectorAll('input[name="planTimeMode"]').forEach(el => el.addEventListener('change', runPlannerSearch));
+    document.getElementById('planReset').addEventListener('click', () => {
+      document.getElementById('planNormalType').checked = true;
+      document.getElementById('planSpecialType').checked = true;
+      document.querySelector('input[name="planTimeMode"][value="upcoming"]').checked = true;
+      document.getElementById('planMaxGap').value = '30';
+      fillPlannerPointSelects();
+      if ([...planOrigin.options].some(option => option.value === 'HO')) planOrigin.value = 'HO';
+      if ([...planDestination.options].some(option => option.value === 'ISW')) planDestination.value = 'ISW';
+      if (planOrigin.value === planDestination.value) {
+        planDestination.value = [...planDestination.options].map(option => option.value).find(value => value !== planOrigin.value) || planDestination.value;
+      }
+      runPlannerSearch();
+    });
+    fillPlannerPointSelects();
+
+    setupFilters(); updateClock(); renderTrips();
+    setInterval(()=>{updateClock();updateCountdowns();},1000);
+  })();
+  </script>
+</body>
+</html>
