@@ -103,6 +103,13 @@
     .driver-details{border-left:3px solid #2c6a9e;padding:3px 0 3px 12px;margin:15px 0;font-size:12px}
     .driver-details strong{display:block;margin-bottom:4px}
     .driver-details a{color:var(--blue);font-weight:750;text-decoration:none;margin-right:9px;display:inline-block}
+    .usage-guide{margin:0 0 18px;padding:15px 19px;border:1px solid #cbd9e6;border-radius:15px;background:#fff;box-shadow:var(--shadow);color:var(--ink)}
+    .usage-guide h2{font-size:16px;margin:0 0 9px;color:var(--navy)}
+    .usage-guide ol{margin:0;padding-left:22px}
+    .usage-guide li{font-size:12px;margin:5px 0;line-height:1.65}
+    .usage-guide strong{color:#173e61}
+    .usage-guide .guide-note{margin:9px 0 0;padding-top:8px;border-top:1px solid #e6edf3;font-size:12px;line-height:1.65}
+    .usage-guide .guide-warning{color:#8b2020;font-weight:800}
     .tab-nav{display:flex;gap:8px;flex-wrap:wrap;padding:6px;background:#e8eef5;border:1px solid #d7e1eb;border-radius:15px;margin:0 0 18px}
     .tab-button{border:1px solid transparent;border-radius:10px;padding:11px 16px;background:transparent;color:#40566b;font-size:13px;font-weight:800;transition:background .15s,color .15s;}
     .tab-button:hover{background:#f8fbfe}
@@ -158,6 +165,16 @@
         <div class="date" id="liveDate">กำลังโหลดวันที่…</div>
       </div>
     </header>
+
+    <section class="usage-guide" aria-labelledby="usageGuideTitle">
+      <h2 id="usageGuideTitle">วิธีใช้งานเบื้องต้น</h2>
+      <ol>
+        <li><strong>ตารางรถปกติ:</strong> ใช้สำหรับดูรอบรถที่ไป Plant โดยตรง เช่น HO → OSW<br><strong>ต้นทาง</strong> คือจุดที่รถจะออกตัว และ <strong>ปลายทาง</strong> คือจุดหมายที่ต้องการไป หากหาจุดหมายไม่เจอ ให้กด <strong>ล้างตัวกรอง</strong> ก่อน 1 ครั้ง เพราะค่าเริ่มต้นจะแสดงเฉพาะ 3 Plant หลัก</li>
+        <li><strong>คำนวณหาเส้นทางล่วงหน้า:</strong> ใช้ค้นหารอบรถไปยังจุดหมายที่ต้องการ โดยเรียงตามรอบที่ใกล้เวลาปัจจุบันที่สุด และอาจมีการต่อรถ เช่น HO → ISW → OSW หากต้องการค้นหาเส้นทางทั่วไป ให้เลือกต้นทางและปลายทาง ส่วน <strong>ช่วงเวลาและการต่อรถ</strong> สามารถใช้ค่าเริ่มต้นได้</li>
+      </ol>
+      <p class="guide-note"><strong>หมายเหตุ:</strong> เวลาที่แสดงคือเวลาออกรถ ควรมาก่อนเวลาอย่างน้อย 3 นาที · <strong>รอบธรรมดา</strong> คือเส้นทางของ Plant หลัก ได้แก่ HO, ISW และ OSW · <strong>รอบพิเศษ</strong> คือจุดหมายอื่นนอกเหนือจาก 3 Plant หลัก</p>
+      <p class="guide-note guide-warning">เวอร์ชันทดลองใช้งาน อาจมีข้อผิดพลาด เช่น ข้อความไม่ตรงกับข้อมูล หรือเวลา/รอบรถมีการเปลี่ยนแปลง</p>
+    </section>
 
     <nav class="tab-nav" role="tablist" aria-label="เมนูตารางรถรับส่ง">
       <button class="tab-button active" id="tabNormal" type="button" role="tab" aria-selected="true" aria-controls="normalView">ตารางรถปกติ</button>
